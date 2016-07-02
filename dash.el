@@ -1302,7 +1302,7 @@ and when that result is non-nil, through the next form, etc."
     (let ((result (make-symbol "result")))
       `(-some-> (-when-let (,result ,x)
                   (-> ,result ,form))
-                ,@more))))
+         ,@more))))
 
 (defmacro -some->> (x &optional form &rest more)
   "When expr is non-nil, thread it through the first form (via `->>'),
@@ -1312,7 +1312,7 @@ and when that result is non-nil, through the next form, etc."
     (let ((result (make-symbol "result")))
       `(-some->> (-when-let (,result ,x)
                    (->> ,result ,form))
-                 ,@more))))
+         ,@more))))
 
 (defmacro -some--> (x &optional form &rest more)
   "When expr in non-nil, thread it through the first form (via `-->'),
@@ -1322,7 +1322,7 @@ and when that result is non-nil, through the next form, etc."
     (let ((result (make-symbol "result")))
       `(-some--> (-when-let (,result ,x)
                    (--> ,result ,form))
-                 ,@more))))
+         ,@more))))
 
 (defun -grade-up (comparator list)
   "Grade elements of LIST using COMPARATOR relation, yielding a
@@ -1331,8 +1331,8 @@ sorts it in ascending order."
   ;; ugly hack to "fix" lack of lexical scope
   (let ((comp `(lambda (it other) (funcall ',comparator (car it) (car other)))))
     (->> (--map-indexed (cons it it-index) list)
-         (-sort comp)
-         (-map 'cdr))))
+      (-sort comp)
+      (-map 'cdr))))
 
 (defun -grade-down (comparator list)
   "Grade elements of LIST using COMPARATOR relation, yielding a
@@ -1341,8 +1341,8 @@ sorts it in descending order."
   ;; ugly hack to "fix" lack of lexical scope
   (let ((comp `(lambda (it other) (funcall ',comparator (car other) (car it)))))
     (->> (--map-indexed (cons it it-index) list)
-         (-sort comp)
-         (-map 'cdr))))
+      (-sort comp)
+      (-map 'cdr))))
 
 (defvar dash--source-counter 0
   "Monotonic counter for generated symbols.")
@@ -1803,13 +1803,13 @@ encountered."
   (declare (debug ((&rest (sexp form)) form body))
            (indent 2))
   (->> vars-vals
-       (--mapcat (dash--match (car it) (cadr it)))
-       (--reduce-r-from
-        (let ((var (car it))
-              (val (cadr it)))
-          `(let ((,var ,val))
-             (if ,var ,acc ,@else)))
-        then)))
+    (--mapcat (dash--match (car it) (cadr it)))
+    (--reduce-r-from
+     (let ((var (car it))
+           (val (cadr it)))
+       `(let ((,var ,val))
+          (if ,var ,acc ,@else)))
+     then)))
 
 (defmacro -if-let (var-val then &rest else)
   "If VAL evaluates to non-nil, bind it to VAR and do THEN,
