@@ -582,7 +582,6 @@ Alias: `-any'"
 (eval-when-compile
   (if (fboundp 'gv-define-simple-setter)
       (gv-define-simple-setter -first-item setcar)
-    (require 'cl)
     (with-no-warnings
       (defsetf -first-item (x) (val) `(setcar ,x ,val)))))
 
@@ -595,7 +594,6 @@ Alias: `-any'"
 (eval-when-compile
   (if (fboundp 'gv-define-setter)
       (gv-define-setter -last-item (val x) `(setcar (last ,x) ,val))
-    (require 'cl)
     (with-no-warnings
       (defsetf -last-item (x) (val) `(setcar (last ,x) ,val)))))
 
