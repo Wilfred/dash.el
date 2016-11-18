@@ -582,7 +582,9 @@ Alias: `-any'"
 (eval-when-compile
   (if (fboundp 'gv-define-simple-setter)
       (gv-define-simple-setter -first-item setcar)
-    (defsetf -first-item (x) (val) `(setcar ,x ,val))))
+    (require 'cl)
+    (with-no-warnings
+      (defsetf -first-item (x) (val) `(setcar ,x ,val)))))
 
 (defun -last-item (list)
   "Return the last item of LIST, or nil on an empty list."
@@ -593,7 +595,9 @@ Alias: `-any'"
 (eval-when-compile
   (if (fboundp 'gv-define-setter)
       (gv-define-setter -last-item (val x) `(setcar (last ,x) ,val))
-    (defsetf -last-item (x) (val) `(setcar (last ,x) ,val))))
+    (require 'cl)
+    (with-no-warnings
+      (defsetf -last-item (x) (val) `(setcar (last ,x) ,val)))))
 
 (defun -butlast (list)
   "Return a list of all items in list except for the last."
